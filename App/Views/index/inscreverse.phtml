@@ -13,12 +13,14 @@
           </div>
         </div>
 
+        <?php $this->view ?>
+
         <div class="row">
           <div class="col">
             
             <form action="/registrar" method="post">
               <div class="form-group">
-                <input type="text" value="teste" name="nome" class="form-control" placeholder="Nome">
+                <input type="text" value="<?= $this->view->usuario['nome']  ?>" name="nome" class="form-control" placeholder="Nome">
               </div>
               
               <div class="form-group">
@@ -26,7 +28,7 @@
               </div>
 
               <div class="form-group">
-                <input type="password"  value="<?php $this->view->usuario['senha']  ?>" name="senha" class="form-control" placeholder="Senha">
+                <input type="password"  value="<?= $this->view->usuario['senha']  ?>" name="senha" class="form-control" placeholder="Senha">
               </div>
               
               <div class="mt-4 mb-4">
