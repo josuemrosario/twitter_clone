@@ -24,6 +24,8 @@ class AuthController extends Action {
 			$_SESSION['id'] = $usuario->__get('id');
 			$_SESSION['nome'] = $usuario->__get('nome');
 
+			header('Location: /timeline');
+
 		}else{
 
 			header('Location: /?login=erro');

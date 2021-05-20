@@ -39,11 +39,11 @@ class Route extends Bootstrap {
 		//	'action' => 'sair'
 		//);
 
-		//$routes['timeline'] = array(
-		//	'route' => '/timeline',
-		//	'controller' => 'authController',
-		//	'action' => 'timeline'
-		//);
+		$routes['timeline'] = array(
+			'route' => '/timeline',
+			'controller' => 'AppController',
+			'action' => 'timeline'
+		);
 
 		$this->setRoutes($routes);
 	}
