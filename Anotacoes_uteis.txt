@@ -1,0 +1,11 @@
+RODAR O SERVIDOR LOCAL DO PHP
+
+php -S localhost:8000
+
+
+MOSTRAR A SUPER GLOBAL GET
+
+		echo '<br /><br /><br /><br /><br /><br /><br /><br />';
+		echo '<pre>';
+		print_r($_GET);
+		echo '</pre>';

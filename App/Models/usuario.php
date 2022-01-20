@@ -34,7 +34,6 @@ class Usuario extends Model{
 	}
 
 	//validar cadastro
-
 	public function validarCadastro(){
 		$valido = true;
 
@@ -81,6 +80,18 @@ class Usuario extends Model{
 		}
 
 		return $this;
+	}
+
+	//pesquisar usuario
+	public function getAll(){
+
+		$query = 'select id,nome,email from usuarios where nome like :nome';
+		$stmt = $this->db->prepare($query);
+		$stmt ->bindValue(':nome','%'.$this->__get('nome').'%');
+		$stmt->execute();
+
+		return (array) $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
 	}
 
 
