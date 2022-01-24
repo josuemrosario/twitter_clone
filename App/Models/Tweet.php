@@ -35,21 +35,92 @@ class Tweet extends Model{
 
 		$query ="
 			select 
-				t.id, t.id_usuario, u.nome, t.tweet, DATE_FORMAT(t.data,'%d/%m/%y %H:%i') as data
+				t.id, 
+				t.id_usuario, 
+				u.nome,
+				t.tweet, 
+				DATE_FORMAT(t.data,'%d/%m/%y %H:%i') as data
 			from 
 				tweets as t
 				left join usuarios as u on(t.id_usuario = u.id)
 			where 
-				t.id_usuario = :id_usuario
+				t.id_usuario = :id_usuario 
+				or t.id_usuario in (
+						select id_usuario_seguindo
+						  from usuarios_seguidores
+						 where id_usuario = :id_usuario)
+
+
 			order by
 				t.data desc	
-		";
+		";;
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':id_usuario',$this->__get('id_usuario'));
-
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}
+
+	//2022 01 24 - Recuperar com paginacao
+	public function getPorPagina($limit,$offset){
+
+		$query ="
+			select 
+				t.id, 
+				t.id_usuario, 
+				u.nome,
+				t.tweet, 
+				DATE_FORMAT(t.data,'%d/%m/%y %H:%i') as data
+			from 
+				tweets as t
+				left join usuarios as u on(t.id_usuario = u.id)
+			where 
+				t.id_usuario = :id_usuario 
+				or t.id_usuario in (
+						select id_usuario_seguindo
+						  from usuarios_seguidores
+						 where id_usuario = :id_usuario)
+
+
+			order by
+				t.data desc	
+			limit
+				$limit
+			offset
+				$offset
+		";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':id_usuario',$this->__get('id_usuario'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}
+
+
+
+		//2022 01 24 - Recuperar total de tweets
+	public function getTotalRegistros(){
+
+		$query ="
+			select 
+				count(*) as total
+			from 
+				tweets as t
+				left join usuarios as u on(t.id_usuario = u.id)
+			where 
+				t.id_usuario = :id_usuario 
+				or t.id_usuario in (
+						select id_usuario_seguindo
+						  from usuarios_seguidores
+						 where id_usuario = :id_usuario)
+		";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':id_usuario',$this->__get('id_usuario'));
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);
 
 	}
 	

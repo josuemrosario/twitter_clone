@@ -27,7 +27,7 @@
 					
 					<div class="row mt-2 mb-2">
 						<div class="col mb-2">
-							<span class="perfilPainelNome">Nome do Usuário</span>
+							<span class="perfilPainelNome"><?= $this->view->info_usuario['nome']?></span>
 						</div>
 					</div>
 
@@ -35,17 +35,17 @@
 
 						<div class="col">
 							<span class="perfilPainelItem">Tweets</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?= $this->view->totaltweets['total_tweet']?></span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguindo</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?= $this->view->totalseguindo['total_seguindo']?></span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguidores</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor"><?php $this->view->totalseguidores?></span>
 						</div>
 
 					</div>
@@ -72,18 +72,47 @@
 			<?php foreach ($this->view->tweets as $id_tweet => $tweet) { ?>
 				<div class="row tweet">
 					<div class="col">
-						<p><strong><?=$tweet['nome']?></strong> <small><span class="text text-muted">- <?=$tweet['data']?></small></span></p>
+						<p><strong><?= $tweet['nome']?></strong> <small><span class="text text-muted">- <?=$tweet['data']?></small></span></p>
 						<p><?=$tweet['tweet']?></p>
 
 						<br />
-						<form>
-							<div class="col d-flex justify-content-end">
-								<button type="submit" class="btn btn-danger"><small>Remover</small></button>
-							</div>
-						</form>
+						<?php if($tweet['id_usuario'] == $_SESSION['id']) { ?>
+							<form method="post" action="/remover_tweet?remover_tweet=<?= $tweet['id']?>">
+								<div class="col d-flex justify-content-end">
+									<button type="submit" class="btn btn-danger"><small>Remover</small></button>
+								</div>
+							</form>
+						<?php } ?>
 					</div>
 				</div>
 			<?php	} ?>
+			<div class="row mt-5">
+				<nav aria-label="...">
+				  <ul class="pagination">
+				    
+				    <li class="page-item <?= $this->view->pagina_ativa == 1 ? 'active' : '' ?> ">
+				      <a class="page-link" href="?pagina=1">Primeira</a>
+				    </li>
+
+				    <?php for($i=2;$i<=($this->view->total_paginas - 1);$i++) { ?>
+
+  					    <li class="page-item <?= $this->view->pagina_ativa == $i ? 'active' : '' ?>">
+  					    	<a class="page-link" href="?pagina=<?=$i?>">
+  					    		<?=$i?>
+  					    	</a>
+  					    </li>
+
+  					<?php } ?>    
+				    
+				    <li class="page-item <?= $this->view->pagina_ativa == $this->view->total_paginas ? 'active' : '' ?>">
+				      <a class="page-link" href="?pagina=<?=$this->view->total_paginas?>">Ultima</a>
+				    </li>
+				  
+				  </ul>
+				</nav>
+				
+			</div>
+
 
 
 
